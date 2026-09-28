@@ -14,7 +14,7 @@ selection tools (single-splat scenes). The statistics then come from that
 area alone.
 
 ## Install
-In LichtFeld Studio open the Plugin Marketplace, paste `OWNER/REPO` into the
+In LichtFeld Studio open the Plugin Marketplace, paste `[OWNER/REPO](https://github.com/felixgeen/lichtfeld-floater-cleanup)` into the
 install field and click Install Plugin. Or copy this folder to
 `%USERPROFILE%\.lichtfeld\plugins\splat_sor\` (Linux: `~/.lichtfeld/plugins/`)
 and restart. numpy and scipy are installed automatically on first load.
