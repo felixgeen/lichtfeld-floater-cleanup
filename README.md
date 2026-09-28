@@ -1,5 +1,5 @@
 # splat_sor - Floater Cleanup for LichtFeld Studio
-
+![A/B compare demo](docs/demo.gif)
 Outlier removal on a trained Gaussian splat, two methods:
 - Local density (default): each Gaussian's mean distance to its K nearest
   neighbours is divided by the median of its neighbours' values. Floaters
