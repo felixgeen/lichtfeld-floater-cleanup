@@ -1,0 +1,15 @@
+[project]
+name = "splat_sor"
+version = "0.4.0"
+description = "Post-training floater cleanup for Gaussian splats: local-density and global statistical outlier removal with A/B compare"
+authors = [{name = "Felix"}]
+readme = "README.md"
+license = "GPL-3.0-or-later"
+keywords = ["cleanup", "floaters", "outlier removal", "SOR", "editing"]
+dependencies = ["numpy", "scipy"]
+
+[tool.lichtfeld]
+hot_reload = true
+plugin_api = ">=1,<2"
+lichtfeld_version = ">=0.4.2"
+required_features = []

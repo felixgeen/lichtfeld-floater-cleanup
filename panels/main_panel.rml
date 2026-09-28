@@ -1,0 +1,148 @@
+<rml>
+<head>
+  <link type="text/rcss" href="main_panel.rcss"/>
+</head>
+<body id="body" data-model="splat_sor" class="plugin-panel splat-sor">
+  <div class="sor-shell">
+
+    <div class="sor-header">
+      <span class="sor-title">Statistical Outlier Removal</span>
+      <span class="sor-note">Removes isolated Gaussians (floaters) from a trained splat.</span>
+    </div>
+
+    <div class="sor-card" data-class-locked="locked">
+      <div class="setting-row setting-row--aligned" title="Selected: splat nodes selected in the scene tree (groups include children). All visible: every visible splat node.">
+        <span class="setting-row__label-col">Target</span>
+        <div class="setting-row__control-col setting-row__control-col--fill">
+          <select data-value="scope">
+            <option value="selected">Selected splat nodes</option>
+            <option value="visible">All visible splat nodes</option>
+          </select>
+        </div>
+      </div>
+      <div class="setting-row setting-row--aligned" title="Analyse only the Gaussians currently selected with LichtFeld's selection tools.">
+        <span class="setting-row__label-col">Only inside selection</span>
+        <div class="setting-row__control-col">
+          <input type="checkbox" data-attrif-checked="only_selection" data-event-change="toggle_only_selection" />
+        </div>
+      </div>
+      <span class="sor-hint">Box-select generously around the problem area first (e.g. the bike). Statistics then come from that area alone, so floaters next to thin detail stand out.</span>
+      <div class="setting-row setting-row--aligned" title="Hide: soft-deletes outliers so you can compare and restore. Select: only highlights them (single-splat scenes).">
+        <span class="setting-row__label-col">Action</span>
+        <div class="setting-row__control-col setting-row__control-col--fill">
+          <select data-value="mode">
+            <option value="hide">Hide outliers (soft delete)</option>
+            <option value="select">Select outliers only</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="sor-card" data-class-locked="locked">
+      <span class="sor-section">Outlier test</span>
+      <div class="setting-row setting-row--aligned" title="Global: one threshold for the whole scene. Local: each Gaussian is compared with its own neighbourhood.">
+        <span class="setting-row__label-col">Method</span>
+        <div class="setting-row__control-col setting-row__control-col--fill">
+          <select data-value="method">
+            <option value="local">Local density (fine detail)</option>
+            <option value="global">Global SOR (open space)</option>
+          </select>
+        </div>
+      </div>
+      <span class="sor-hint">Local catches floaters hugging cables, spokes and edges. Global only catches floaters out in empty space.</span>
+      <div class="setting-row setting-row--aligned" title="How many nearest Gaussians each one is compared with. Higher is more robust but slower.">
+        <span class="setting-row__label-col">Neighbors (K)</span>
+        <div class="setting-row__control-col setting-row__control-col--slider">
+          <input type="range" class="setting-slider" data-value="k" min="4" max="64" step="1" />
+        </div>
+      </div>
+      <span class="sor-hint">16-32 suits most scenes.</span>
+
+      <div class="sor-param" data-class-muted="method_global">
+        <div class="setting-row setting-row--aligned" title="How many times sparser than its neighbours a Gaussian must be to count as a floater. Lower removes more.">
+          <span class="setting-row__label-col">Local ratio</span>
+          <div class="setting-row__control-col setting-row__control-col--slider">
+            <input type="range" class="setting-slider" data-value="local_ratio" min="1.5" max="6" step="0.05" />
+          </div>
+        </div>
+        <span class="sor-hint">Local method. Start at 3.0; go down toward 2.0 carefully, below that real detail starts to go.</span>
+      </div>
+
+      <div class="sor-param" data-class-muted="!method_global">
+        <div class="setting-row setting-row--aligned" title="Sensitivity. Lower removes more.">
+          <span class="setting-row__label-col">Std ratio</span>
+          <div class="setting-row__control-col setting-row__control-col--slider">
+            <input type="range" class="setting-slider" data-value="std_ratio" min="0.5" max="5" step="0.05" />
+          </div>
+        </div>
+        <span class="sor-hint">Global method. Lower removes more. Raise to 2.5-3.0 if wires, grass or cables disappear.</span>
+      </div>
+
+      <div class="setting-row setting-row--aligned" title="Re-run on the survivors with the first pass's threshold.">
+        <span class="setting-row__label-col">Passes</span>
+        <div class="setting-row__control-col setting-row__control-col--slider">
+          <input type="range" class="setting-slider" data-value="passes" min="1" max="3" step="1" />
+        </div>
+      </div>
+      <span class="sor-hint">Extra passes catch small floater clumps that shielded each other.</span>
+    </div>
+
+    <div class="sor-card" data-class-locked="locked">
+      <span class="sor-section">Opacity</span>
+      <div class="setting-row setting-row--aligned" title="Remove near-invisible Gaussians before running SOR.">
+        <span class="setting-row__label-col">Prune low opacity</span>
+        <div class="setting-row__control-col">
+          <input type="checkbox" data-attrif-checked="use_opacity" data-event-change="toggle_use_opacity" />
+        </div>
+      </div>
+      <div class="sor-opacity-row" data-class-muted="!use_opacity">
+        <div class="setting-row setting-row--aligned" title="Gaussians below this opacity are removed.">
+          <span class="setting-row__label-col">Min opacity</span>
+          <div class="setting-row__control-col setting-row__control-col--slider">
+            <input type="range" class="setting-slider" data-value="min_opacity" min="0" max="0.5" step="0.01" />
+          </div>
+        </div>
+        <span class="sor-hint">0.05-0.15 is safe; above 0.25 starts eating soft edges.</span>
+      </div>
+    </div>
+
+    <span class="sor-warning" data-if="training_active">Stop or pause training before running a cleanup.</span>
+
+    <div class="sor-actions" data-if="show_run">
+      <button class="btn btn--primary sor-wide" data-event-click="do_run">Run cleanup</button>
+    </div>
+
+    <div class="sor-progress" data-if="busy">
+      <div class="sor-progress-row">
+        <progress class="sor-progress-bar" max="1" data-attr-value="progress_value"></progress>
+        <span class="sor-progress-pct">{{progress_pct}}</span>
+      </div>
+      <button class="btn btn--secondary sor-wide" data-event-click="do_cancel">Cancel</button>
+    </div>
+
+    <div class="sor-card sor-compare" data-if="can_compare">
+      <span class="sor-section">Compare</span>
+      <div class="sor-ab-state" data-class-original="ab_original">{{ab_state}}</div>
+      <div class="sor-actions">
+        <button class="btn btn--secondary sor-hold" data-class-active="ab_holding"
+                data-event-mousedown="ab_press" data-event-mouseup="ab_release"
+                data-event-mouseout="ab_release">Hold for original</button>
+        <button class="btn btn--secondary" data-class-active="ab_latched"
+                data-event-click="toggle_ab">{{ab_toggle_label}}</button>
+      </div>
+      <span class="sor-hint">Hold to peek at the original, release to go back. Each new run starts from the original, so you can tweak settings and compare.</span>
+    </div>
+
+    <div class="sor-actions" data-if="can_restore">
+      <button class="btn btn--secondary" data-event-click="do_restore">Restore</button>
+      <button class="btn btn--warning" data-event-click="do_bake">Bake (permanent)</button>
+    </div>
+    <span class="sor-hint" data-if="can_restore">Bake removes hidden Gaussians for good, so exports are guaranteed clean.</span>
+
+    <span class="sor-status" data-if="has_status">{{status}}</span>
+    <span class="sor-report" data-if="has_report">{{report}}</span>
+    <span class="sor-error" data-if="has_error">{{error}}</span>
+
+  </div>
+</body>
+</rml>

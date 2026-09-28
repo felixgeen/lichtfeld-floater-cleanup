@@ -1,0 +1,149 @@
+body.splat-sor {
+    padding: 0;
+    margin: 0;
+}
+
+.sor-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10dp;
+    padding: 12dp;
+}
+
+.sor-header {
+    display: flex;
+    flex-direction: column;
+    gap: 3dp;
+}
+
+.sor-title {
+    font-size: 15dp;
+    font-weight: bold;
+}
+
+.sor-note,
+.sor-hint {
+    font-size: 11dp;
+    color: #9aa7b6;
+}
+
+.sor-hint {
+    margin-top: -2dp;
+    margin-bottom: 2dp;
+}
+
+.sor-section {
+    font-size: 11dp;
+    font-weight: bold;
+    color: #b8c4d2;
+}
+
+.sor-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6dp;
+    padding: 10dp;
+    border-radius: 8dp;
+    border-width: 1dp;
+    border-color: rgba(255, 255, 255, 20);
+    background-color: rgba(255, 255, 255, 6);
+}
+
+/* While a cleanup runs, the settings are frozen so the result matches them */
+.sor-card.locked {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.sor-opacity-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6dp;
+}
+
+.sor-param {
+    display: flex;
+    flex-direction: column;
+    gap: 6dp;
+}
+
+.sor-param.muted,
+.sor-opacity-row.muted {
+    opacity: 0.4;
+}
+
+.sor-actions {
+    display: flex;
+    gap: 8dp;
+}
+
+.sor-actions button {
+    flex: 1;
+}
+
+.sor-wide {
+    width: 100%;
+}
+
+.sor-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 8dp;
+}
+
+.sor-progress-row {
+    display: flex;
+    align-items: center;
+    gap: 8dp;
+}
+
+.sor-progress-bar {
+    flex: 1;
+    height: 8dp;
+}
+
+.sor-progress-pct {
+    width: 40dp;
+    text-align: right;
+    font-size: 11dp;
+}
+
+.sor-warning {
+    color: #f3c96d;
+    font-size: 12dp;
+}
+
+.sor-status {
+    font-size: 12dp;
+}
+
+.sor-report {
+    font-size: 11dp;
+    color: #9aa7b6;
+    white-space: pre-line;
+}
+
+.sor-error {
+    font-size: 11dp;
+    color: #ff7a7a;
+    white-space: pre-wrap;
+}
+
+.sor-ab-state {
+    font-size: 12dp;
+    font-weight: bold;
+    padding: 6dp 8dp;
+    border-radius: 6dp;
+    background-color: rgba(90, 200, 130, 40);
+    color: #9be3b4;
+}
+
+.sor-ab-state.original {
+    background-color: rgba(243, 201, 109, 45);
+    color: #f3c96d;
+}
+
+.sor-compare button.active {
+    border-color: #f3c96d;
+    color: #f3c96d;
+}
